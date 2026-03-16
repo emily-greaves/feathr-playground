@@ -87,22 +87,14 @@ export function CreateCampaignWizard({ open, onOpenChange }: CreateCampaignWizar
       if (!isOpen) setCurrentStep(0)
       onOpenChange(isOpen)
     }}>
-      <DialogContent className="fixed inset-0 max-w-none w-screen h-screen translate-x-0 translate-y-0 rounded-none border-0 flex flex-col gap-0 p-0 [&>button:last-child]:hidden">
+      <DialogContent className="fixed !left-0 !top-0 !translate-x-0 !translate-y-0 !max-w-none w-screen h-screen rounded-none border-0 flex flex-col gap-0 p-0 !duration-0 !animate-none [&>button:last-child]:hidden">
         {/* Minimal Header */}
         <div className="flex items-center justify-between px-4 py-4 border-b bg-background shrink-0">
-          {/* Left: Logo + breadcrumb */}
-          <div className="flex items-center gap-3 pl-2">
-            <div className="size-8 rounded-lg overflow-hidden shrink-0">
-              <img
-                src={activeWorkspace.image}
-                alt={activeWorkspace.name}
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <span className="text-muted-foreground">/</span>
+          {/* Left: Breadcrumb */}
+          <div className="flex items-center gap-2 pl-2">
             {activeProject ? (
               <>
-                <span className="text-sm">{activeProject.name}</span>
+                <span className="text-sm text-muted-foreground">{activeProject.name}</span>
                 <span className="text-muted-foreground">›</span>
               </>
             ) : null}
