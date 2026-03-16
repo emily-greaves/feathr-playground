@@ -6,18 +6,16 @@ import {
   useEffect,
   ReactNode,
 } from 'react'
-import { Workspace, sampleWorkspaces } from './navigation'
+import { Workspace, sampleWorkspaces, Project, sampleProjects } from './navigation'
 
 const FAVORITES_STORAGE_KEY = 'feathr-favorite-projects'
 const WORKSPACE_FAVORITES_STORAGE_KEY = 'feathr-favorite-workspaces'
 const RECENT_WORKSPACES_STORAGE_KEY = 'feathr-recent-workspaces'
 const ACTIVE_WORKSPACE_STORAGE_KEY = 'feathr-active-workspace'
+const PROJECTS_STORAGE_KEY = 'feathr-projects'
 const MAX_RECENT_WORKSPACES = 5
 
-export interface Project {
-  id: string
-  name: string
-}
+export type { Project }
 
 interface NavigationContextValue {
   activeSection: string
@@ -26,6 +24,7 @@ interface NavigationContextValue {
   activeProject: Project | null
   activeWorkspace: Workspace
   sidebarOpen: boolean
+  projects: Project[]
   favoriteProjectIds: string[]
   favoriteWorkspaceIds: string[]
   recentWorkspaceIds: string[]
@@ -37,6 +36,7 @@ interface NavigationContextValue {
   exitProject: () => void
   setActiveWorkspace: (workspace: Workspace) => void
   setSidebarOpen: (open: boolean) => void
+  addProject: (project: Omit<Project, 'id'>) => Project
   toggleFavorite: (projectId: string) => void
   isFavorite: (projectId: string) => boolean
   toggleWorkspaceFavorite: (workspaceId: string) => void
@@ -78,6 +78,14 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
     }
     return sampleWorkspaces[0]!
   })
+  const [projects, setProjects] = useState<Project[]>(() => {
+    const stored = localStorage.getItem(PROJECTS_STORAGE_KEY)
+    return stored ? JSON.parse(stored) : sampleProjects
+  })
+
+  useEffect(() => {
+    localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(projects))
+  }, [projects])
 
   useEffect(() => {
     localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favoriteProjectIds))
@@ -154,6 +162,15 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
     setActiveSubItem('overview')
   }, [])
 
+  const addProject = useCallback((projectData: Omit<Project, 'id'>) => {
+    const newProject: Project = {
+      ...projectData,
+      id: `project-${Date.now()}`,
+    }
+    setProjects((prev) => [...prev, newProject])
+    return newProject
+  }, [])
+
   return (
     <NavigationContext.Provider
       value={{
@@ -163,6 +180,7 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
         activeProject,
         activeWorkspace,
         sidebarOpen,
+        projects,
         favoriteProjectIds,
         favoriteWorkspaceIds,
         recentWorkspaceIds,
@@ -174,6 +192,7 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
         exitProject,
         setActiveWorkspace,
         setSidebarOpen,
+        addProject,
         toggleFavorite,
         isFavorite,
         toggleWorkspaceFavorite,
