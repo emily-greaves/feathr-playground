@@ -7,12 +7,12 @@ export type StepStatus = 'completed' | 'current' | 'upcoming'
 export interface Step {
   id: string
   label: string
-  description?: string
 }
 
 interface StepperContextValue {
   currentStep: number
   totalSteps: number
+  steps: Step[]
   goToStep: (step: number) => void
   getStepStatus: (index: number) => StepStatus
 }
@@ -28,21 +28,19 @@ function useStepperContext() {
 }
 
 interface StepperProps {
+  steps: Step[]
   currentStep: number
   onStepChange?: (step: number) => void
-  children: React.ReactNode
+  action?: React.ReactNode
   className?: string
 }
 
-function Stepper({ currentStep, onStepChange, children, className }: StepperProps) {
-  const steps = React.Children.toArray(children).filter(
-    (child) => React.isValidElement(child) && child.type === StepperItem
-  )
+function Stepper({ steps, currentStep, onStepChange, action, className }: StepperProps) {
   const totalSteps = steps.length
+  const currentStepData = steps[currentStep]
 
   const goToStep = React.useCallback(
     (step: number) => {
-      // Only allow going to completed steps or current step
       if (step < currentStep && onStepChange) {
         onStepChange(step)
       }
@@ -60,24 +58,43 @@ function Stepper({ currentStep, onStepChange, children, className }: StepperProp
   )
 
   return (
-    <StepperContext.Provider value={{ currentStep, totalSteps, goToStep, getStepStatus }}>
-      <nav aria-label="Progress" className={className}>
-        <ol className="flex items-center">{children}</ol>
+    <StepperContext.Provider value={{ currentStep, totalSteps, steps, goToStep, getStepStatus }}>
+      <nav aria-label="Progress" className={cn('w-full', className)}>
+        {/* Grid ensures center stays centered regardless of left/right content width */}
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+          {/* Left: Title + Step count */}
+          <div>
+            <h2 className="text-base font-semibold">{currentStepData?.label}</h2>
+            <p className="text-sm text-muted-foreground">
+              Step {currentStep + 1} of {totalSteps}
+            </p>
+          </div>
+
+          {/* Center: Step indicators */}
+          <div className="flex items-center justify-center gap-1.5 md:gap-2">
+            {steps.map((step, index) => (
+              <StepIndicator key={step.id} step={index} isLast={index === totalSteps - 1} />
+            ))}
+          </div>
+
+          {/* Right: Action (optional) */}
+          <div className="flex justify-end">
+            {action}
+          </div>
+        </div>
       </nav>
     </StepperContext.Provider>
   )
 }
 
-interface StepperItemProps {
+interface StepIndicatorProps {
   step: number
-  label: string
-  description?: string
+  isLast: boolean
 }
 
-function StepperItem({ step, label, description }: StepperItemProps) {
-  const { totalSteps, goToStep, getStepStatus } = useStepperContext()
+function StepIndicator({ step, isLast }: StepIndicatorProps) {
+  const { goToStep, getStepStatus } = useStepperContext()
   const status = getStepStatus(step)
-  const isLast = step === totalSteps - 1
 
   const handleClick = () => {
     if (status === 'completed') {
@@ -93,73 +110,35 @@ function StepperItem({ step, label, description }: StepperItemProps) {
   }
 
   return (
-    <li className={cn('relative flex items-center', !isLast && 'flex-1')}>
+    <>
       <div
         role={status === 'completed' ? 'button' : undefined}
         tabIndex={status === 'completed' ? 0 : undefined}
+        aria-current={status === 'current' ? 'step' : undefined}
+        aria-disabled={status === 'upcoming' ? true : undefined}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         className={cn(
-          'flex items-center gap-3 group',
-          status === 'completed' && 'cursor-pointer'
+          'flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-semibold transition-all',
+          status === 'completed' && [
+            'border-2 border-green-500 text-green-500',
+            'cursor-pointer hover:bg-green-500/10',
+          ],
+          status === 'current' && 'bg-cyan-600 text-white',
+          status === 'upcoming' && 'border-2 border-muted-foreground/30 text-muted-foreground/50'
         )}
       >
-        {/* Step indicator */}
-        <div
-          className={cn(
-            'flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 text-sm font-semibold transition-all',
-            status === 'completed' && [
-              'border-primary bg-primary text-primary-foreground',
-              'group-hover:bg-primary/90',
-            ],
-            status === 'current' && 'border-primary bg-primary text-primary-foreground',
-            status === 'upcoming' && 'border-muted-foreground/30 bg-background text-muted-foreground'
-          )}
-        >
-          {status === 'completed' ? (
-            <Check className="h-5 w-5" aria-hidden="true" />
-          ) : (
-            <span>{step + 1}</span>
-          )}
-        </div>
-
-        {/* Step label */}
-        <div className="hidden sm:block min-w-0">
-          <p
-            className={cn(
-              'text-sm font-medium transition-colors',
-              status === 'completed' && 'text-foreground group-hover:text-primary',
-              status === 'current' && 'text-foreground',
-              status === 'upcoming' && 'text-muted-foreground'
-            )}
-          >
-            {label}
-          </p>
-          {description && (
-            <p
-              className={cn(
-                'text-xs transition-colors',
-                status === 'upcoming' ? 'text-muted-foreground/60' : 'text-muted-foreground'
-              )}
-            >
-              {description}
-            </p>
-          )}
-        </div>
+        {status === 'completed' ? (
+          <Check className="h-3.5 w-3.5" aria-hidden="true" />
+        ) : (
+          <span>{step + 1}</span>
+        )}
       </div>
-
-      {/* Connector line */}
+      {/* Connector - hidden on small screens */}
       {!isLast && (
-        <div className="flex-1 mx-4">
-          <div
-            className={cn(
-              'h-0.5 w-full transition-colors',
-              status === 'completed' ? 'bg-primary' : 'bg-muted-foreground/30'
-            )}
-          />
-        </div>
+        <div className="hidden md:block w-5 h-0.5 bg-muted-foreground/30" />
       )}
-    </li>
+    </>
   )
 }
 
@@ -176,6 +155,19 @@ function StepperContent({ step, currentStep, children, className }: StepperConte
   }
 
   return <div className={className}>{children}</div>
+}
+
+// Legacy exports for backwards compatibility during migration
+interface LegacyStepperItemProps {
+  step: number
+  label: string
+  description?: string
+}
+
+function StepperItem(_props: LegacyStepperItemProps) {
+  // This component is no longer used - steps are passed as data to Stepper
+  // Keeping for backwards compatibility during migration
+  return null
 }
 
 export { Stepper, StepperItem, StepperContent, useStepperContext }
