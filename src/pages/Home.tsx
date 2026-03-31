@@ -4,6 +4,8 @@ import { PageHeader } from '@/components/layout'
 import { useNavigation } from '@/components/layout/NavigationContext'
 import { allNavigationItems, projectNavigationItems, projectSettingsItem, sampleProjects, sampleWorkspaces } from '@/components/layout/navigation'
 import { cn } from '@/lib/utils'
+import CampaignsPage from './CampaignsPage'
+import type { CampaignType } from '@/lib/campaignTypes'
 
 function EmptyState() {
   return (
@@ -142,6 +144,14 @@ export default function Home() {
   const isProjectsPage = activeSection === 'projects' && !activeProject
   // Accounts page - show accounts grid
   const isAccountsPage = activeSection === 'accounts' && !activeProject
+  // Campaigns page
+  const isCampaignsPage = activeSection === 'campaigns'
+
+  // Map sub-item to campaign type filter
+  const campaignTypeFilter: CampaignType | undefined =
+    activeSubItem && activeSubItem !== 'all' && activeSubItem !== 'overview'
+      ? (activeSubItem as CampaignType)
+      : undefined
 
   // Get navigation items based on context
   const navigationItems = activeProject
@@ -201,6 +211,7 @@ export default function Home() {
   const renderContent = () => {
     if (isProjectsPage) return <ProjectsGrid />
     if (isAccountsPage) return <AccountsGrid />
+    if (isCampaignsPage) return <CampaignsPage typeFilter={campaignTypeFilter} />
     return <EmptyState />
   }
 
