@@ -3,6 +3,7 @@ import { AppLayout } from '@/components/layout'
 import Home from '@/pages/Home'
 import UsabilityConcepts from '@/pages/UsabilityConcepts'
 import FeatureOptIn from '@/pages/FeatureOptIn'
+import GdprConsentDemo from '@/pages/GdprConsentDemo'
 
 export interface Prototype {
   slug: string
@@ -44,6 +45,19 @@ export const prototypes: Prototype[] = [
     branch: 'aw/feature-opt-in',
     mergedAt: '2026-04-28',
     render: () => <FeatureOptIn />,
+  },
+  {
+    slug: 'gdpr-email-consent',
+    title: 'GDPR Email Consent',
+    description:
+      'Form builder pattern for GDPR-compliant email consent: toggle the consent checkbox on/off, edit consent copy, and require consent for submission. Live preview shows how the form appears to supporters with conditional rendering, validation, and inline error messaging.',
+    branch: 'aw/gdpr-email-consent',
+    mergedAt: '2026-04-28',
+    render: () => (
+      <AppLayout>
+        <GdprConsentDemo />
+      </AppLayout>
+    ),
   },
 ]
 
