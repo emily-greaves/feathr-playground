@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Toaster } from '@/components/ui/sonner'
+import { Agentation } from 'agentation'
 import { PrototypeFrame } from '@/components/layout/PrototypeFrame'
 import Playground from '@/pages/Playground'
 import { getPrototype } from '@/prototypes'
@@ -30,6 +31,7 @@ function App() {
         <Playground />
       )}
       <Toaster position="bottom-right" richColors />
+      {import.meta.env.DEV && <Agentation />}
     </>
   )
 }
