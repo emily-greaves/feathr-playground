@@ -11,6 +11,7 @@ export interface Prototype {
   description: string
   branch: string
   mergedAt: string
+  author: string
   render: () => ReactNode
 }
 
@@ -22,6 +23,7 @@ export const prototypes: Prototype[] = [
       'Sidebar IA with accordion groups, project favoriting, breadcrumbs, command palette, account switcher, and a Create dropdown. Includes the create project dialog and full-screen campaign wizard with redesigned stepper.',
     branch: 'feature/create-project-and-campaign-wizard',
     mergedAt: '2026-04-28',
+    author: 'Andy',
     render: () => (
       <AppLayout>
         <Home />
@@ -35,6 +37,7 @@ export const prototypes: Prototype[] = [
       'Four IA variations rendered side-by-side via a runtime concept switcher: current navigation (baseline), task-based flat nav with project as filter, progressive (adapts to new vs mature users), and a simplified hybrid. Use the floating switcher in the bottom-right to toggle between concepts.',
     branch: 'usability-concept-prototype',
     mergedAt: '2026-04-28',
+    author: 'Andy',
     render: () => <UsabilityConcepts />,
   },
   {
@@ -44,6 +47,7 @@ export const prototypes: Prototype[] = [
       'Discoverable, reversible "try the new experience" UX patterns: experience bar, opt-in banner, sidebar opt-in, labs settings sheet, and feedback dialog. Use the floating prototype control panel in the bottom-right to toggle individual feature flags and preview each pattern.',
     branch: 'aw/feature-opt-in',
     mergedAt: '2026-04-28',
+    author: 'Andy',
     render: () => <FeatureOptIn />,
   },
   {
@@ -53,6 +57,7 @@ export const prototypes: Prototype[] = [
       'Form builder pattern for GDPR-compliant email consent: toggle the consent checkbox on/off, edit consent copy, and require consent for submission. Live preview shows how the form appears to supporters with conditional rendering, validation, and inline error messaging.',
     branch: 'aw/gdpr-email-consent',
     mergedAt: '2026-04-28',
+    author: 'Andy',
     render: () => (
       <AppLayout>
         <GdprConsentDemo />
