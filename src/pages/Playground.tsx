@@ -3,7 +3,8 @@ import { Card } from '@/components/ui/card'
 import { prototypes } from '@/prototypes'
 
 function formatDate(iso: string) {
-  const date = new Date(iso)
+  const [year, month, day] = iso.split('-').map(Number)
+  const date = new Date(year, month - 1, day)
   return date.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
@@ -53,6 +54,8 @@ export default function Playground() {
                     </span>
                     <span className="text-border">·</span>
                     <span>Merged {formatDate(p.mergedAt)}</span>
+                    <span className="text-border">·</span>
+                    <span>Created by {p.author}</span>
                   </div>
                 </div>
               </Card>
