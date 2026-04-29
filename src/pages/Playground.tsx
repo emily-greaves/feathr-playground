@@ -31,35 +31,57 @@ export default function Playground() {
 
         <div className="flex flex-col gap-4">
           {sorted.map((p) => (
-            <a
+            <Card
               key={p.slug}
-              href={`#/${p.slug}`}
-              className="group block focus:outline-none"
+              className="group h-full cursor-pointer p-6 transition-colors hover:border-foreground/20 hover:bg-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              role="link"
+              tabIndex={0}
+              onClick={() => {
+                window.location.hash = `/${p.slug}`
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  window.location.hash = `/${p.slug}`
+                }
+              }}
             >
-              <Card className="h-full p-6 transition-colors hover:border-foreground/20 hover:bg-accent/30 group-focus-visible:ring-2 group-focus-visible:ring-ring">
-                <div className="flex h-full flex-col">
-                  <div className="mb-3 flex items-start justify-between gap-3">
-                    <h2 className="text-lg font-semibold leading-tight">
-                      {p.title}
-                    </h2>
-                    <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-                  </div>
-                  <p className="mb-6 text-sm text-muted-foreground">
-                    {p.description}
-                  </p>
-                  <div className="mt-auto flex items-center gap-3 text-xs text-muted-foreground">
-                    <span className="inline-flex items-center gap-1.5">
-                      <GitBranch className="h-3.5 w-3.5" />
-                      <code className="font-mono">{p.branch}</code>
-                    </span>
-                    <span className="text-border">·</span>
-                    <span>Merged {formatDate(p.mergedAt)}</span>
-                    <span className="text-border">·</span>
-                    <span>Created by {p.author}</span>
-                  </div>
+              <div className="flex h-full flex-col">
+                <div className="mb-3 flex items-start justify-between gap-3">
+                  <h2 className="text-lg font-semibold leading-tight">
+                    {p.title}
+                  </h2>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
                 </div>
-              </Card>
-            </a>
+                <p className="mb-6 text-sm text-muted-foreground">
+                  {p.description}
+                </p>
+                <div className="mt-auto flex items-center gap-3 text-xs text-muted-foreground">
+                  <span className="inline-flex items-center gap-1.5">
+                    <GitBranch className="h-3.5 w-3.5" />
+                    <code className="font-mono">{p.branch}</code>
+                  </span>
+                  {p.prNumber !== undefined && (
+                    <>
+                      <span className="text-border">·</span>
+                      <a
+                        href={`https://github.com/andy-weir/Playground/pull/${p.prNumber}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="font-mono hover:text-foreground hover:underline"
+                      >
+                        #{p.prNumber}
+                      </a>
+                    </>
+                  )}
+                  <span className="text-border">·</span>
+                  <span>Merged {formatDate(p.mergedAt)}</span>
+                  <span className="text-border">·</span>
+                  <span>Created by {p.author}</span>
+                </div>
+              </div>
+            </Card>
           ))}
         </div>
 
