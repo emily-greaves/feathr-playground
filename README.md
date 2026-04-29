@@ -45,9 +45,22 @@ src/
 ├── lib/
 │   ├── utils.ts      # Utility functions (cn)
 │   └── animations.ts # Reusable animation presets
-└── pages/
-    └── Home.tsx      # Demo landing page
+├── pages/
+│   └── Home.tsx      # Demo landing page
+└── prototypes.tsx    # Registry of prototypes shown on the playground
 ```
+
+## Prototype Playground Convention
+
+The playground (`/`) renders one card per entry in `src/prototypes.tsx`. Each branch that introduces a new prototype must add its own card — never edit an existing entry, and never extend an existing prototype's page component.
+
+**When merging a branch with new prototype work:**
+
+1. **Create a dedicated page component** for the prototype under `src/pages/` (e.g. `src/pages/CampaignWizard.tsx`). Do not add the work to `Home.tsx` or to another prototype's page.
+2. **Add a new entry** to the `prototypes` array in `src/prototypes.tsx` with a unique `slug`, `title`, `description`, `branch`, `mergedAt`, and a `render` function that returns the new component.
+3. **Leave existing entries untouched.** If the branch updates an existing prototype, edit only that prototype's own page component — do not modify the registry entry's description to absorb new scope.
+
+This keeps every merged branch as a standalone card on the playground rather than collapsing into a single prototype.
 
 ## Animation Presets
 
