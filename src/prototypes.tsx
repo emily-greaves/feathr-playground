@@ -12,6 +12,7 @@ export interface Prototype {
   branch: string
   mergedAt: string
   author: string
+  prNumber?: number
   render: () => ReactNode
 }
 
@@ -24,6 +25,7 @@ export const prototypes: Prototype[] = [
     branch: 'feature/create-project-and-campaign-wizard',
     mergedAt: '2026-04-28',
     author: 'Andy',
+    prNumber: 5,
     render: () => (
       <AppLayout>
         <Home />
@@ -38,6 +40,7 @@ export const prototypes: Prototype[] = [
     branch: 'usability-concept-prototype',
     mergedAt: '2026-04-28',
     author: 'Andy',
+    prNumber: 8,
     render: () => <UsabilityConcepts />,
   },
   {
@@ -48,6 +51,7 @@ export const prototypes: Prototype[] = [
     branch: 'aw/feature-opt-in',
     mergedAt: '2026-04-28',
     author: 'Andy',
+    prNumber: 10,
     render: () => <FeatureOptIn />,
   },
   {
@@ -58,6 +62,7 @@ export const prototypes: Prototype[] = [
     branch: 'aw/gdpr-email-consent',
     mergedAt: '2026-04-28',
     author: 'Andy',
+    prNumber: 11,
     render: () => (
       <AppLayout>
         <GdprConsentDemo />
