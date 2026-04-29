@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { AppLayout } from '@/components/layout'
 import Home from '@/pages/Home'
 import UsabilityConcepts from '@/pages/UsabilityConcepts'
+import FeatureOptIn from '@/pages/FeatureOptIn'
 
 export interface Prototype {
   slug: string
@@ -34,6 +35,15 @@ export const prototypes: Prototype[] = [
     branch: 'usability-concept-prototype',
     mergedAt: '2026-04-28',
     render: () => <UsabilityConcepts />,
+  },
+  {
+    slug: 'feature-opt-in',
+    title: 'Feature Opt-In',
+    description:
+      'Discoverable, reversible "try the new experience" UX patterns: experience bar, opt-in banner, sidebar opt-in, labs settings sheet, and feedback dialog. Use the floating prototype control panel in the bottom-right to toggle individual feature flags and preview each pattern.',
+    branch: 'aw/feature-opt-in',
+    mergedAt: '2026-04-28',
+    render: () => <FeatureOptIn />,
   },
 ]
 
