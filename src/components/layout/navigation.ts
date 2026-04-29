@@ -284,10 +284,31 @@ export const projectSettingsItem: NavItem = {
 }
 
 // Sample projects for demo purposes
-export const sampleProjects = [
-  { id: 'spring-gala', name: 'Spring Gala' },
-  { id: 'annual-fundraiser', name: 'Annual Fundraiser' },
-  { id: 'q4-campaign', name: 'Q4 Campaign' },
+export interface Project {
+  id: string
+  name: string
+  image?: string
+  billingConfigId?: string
+}
+
+export const sampleProjects: Project[] = [
+  { id: 'spring-gala', name: 'Spring Gala', image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=80&h=80&fit=crop', billingConfigId: 'config-1' },
+  { id: 'annual-fundraiser', name: 'Annual Fundraiser', image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=80&h=80&fit=crop', billingConfigId: 'config-2' },
+  { id: 'q4-campaign', name: 'Q4 Campaign', image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=80&h=80&fit=crop', billingConfigId: 'config-1' },
+]
+
+// Sample billing configurations for demo purposes
+export interface BillingConfig {
+  id: string
+  name: string
+  description: string
+}
+
+export const sampleBillingConfigs: BillingConfig[] = [
+  { id: 'config-1', name: 'General Fund', description: 'Default billing for general campaigns' },
+  { id: 'config-2', name: 'Annual Giving', description: 'Restricted to annual giving programs' },
+  { id: 'config-3', name: 'Events Budget', description: 'For event-related expenses' },
+  { id: 'config-4', name: 'Grant Funded', description: 'Grant-restricted spending' },
 ]
 
 // Sample workspaces for demo purposes
