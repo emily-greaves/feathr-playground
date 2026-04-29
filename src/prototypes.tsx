@@ -4,13 +4,15 @@ import Home from '@/pages/Home'
 import UsabilityConcepts from '@/pages/UsabilityConcepts'
 import FeatureOptIn from '@/pages/FeatureOptIn'
 import GdprConsentDemo from '@/pages/GdprConsentDemo'
+import GdprConsentDemoV2 from '@/pages/GdprConsentDemoV2'
 
 export interface Prototype {
   slug: string
   title: string
   description: string
   branch: string
-  mergedAt: string
+  createdAt: string
+  mergedAt?: string
   author: string
   prNumber?: number
   render: () => ReactNode
@@ -23,6 +25,7 @@ export const prototypes: Prototype[] = [
     description:
       'Sidebar IA with accordion groups, project favoriting, breadcrumbs, command palette, account switcher, and a Create dropdown. Includes the create project dialog and full-screen campaign wizard with redesigned stepper.',
     branch: 'feature/create-project-and-campaign-wizard',
+    createdAt: '2026-04-28',
     mergedAt: '2026-04-28',
     author: 'Andy',
     prNumber: 5,
@@ -38,6 +41,7 @@ export const prototypes: Prototype[] = [
     description:
       'Four IA variations rendered side-by-side via a runtime concept switcher: current navigation (baseline), task-based flat nav with project as filter, progressive (adapts to new vs mature users), and a simplified hybrid. Use the floating switcher in the bottom-right to toggle between concepts.',
     branch: 'usability-concept-prototype',
+    createdAt: '2026-04-28',
     mergedAt: '2026-04-28',
     author: 'Andy',
     prNumber: 8,
@@ -49,6 +53,7 @@ export const prototypes: Prototype[] = [
     description:
       'Discoverable, reversible "try the new experience" UX patterns: experience bar, opt-in banner, sidebar opt-in, labs settings sheet, and feedback dialog. Use the floating prototype control panel in the bottom-right to toggle individual feature flags and preview each pattern.',
     branch: 'aw/feature-opt-in',
+    createdAt: '2026-04-28',
     mergedAt: '2026-04-28',
     author: 'Andy',
     prNumber: 10,
@@ -60,12 +65,27 @@ export const prototypes: Prototype[] = [
     description:
       'Form builder pattern for GDPR-compliant email consent: toggle the consent checkbox on/off, edit consent copy, and require consent for submission. Live preview shows how the form appears to supporters with conditional rendering, validation, and inline error messaging.',
     branch: 'aw/gdpr-email-consent',
+    createdAt: '2026-04-28',
     mergedAt: '2026-04-28',
     author: 'Andy',
     prNumber: 11,
     render: () => (
       <AppLayout>
         <GdprConsentDemo />
+      </AppLayout>
+    ),
+  },
+  {
+    slug: 'gdpr-email-consent-v2',
+    title: 'GDPR Email Consent v2',
+    description:
+      'Iteration on the GDPR email consent prototype. Duplicated from v1 as a starting point — ready to evolve with new ideas.',
+    branch: 'aw/gdpr-email-consent-v2',
+    createdAt: '2026-04-28',
+    author: 'Andy',
+    render: () => (
+      <AppLayout>
+        <GdprConsentDemoV2 />
       </AppLayout>
     ),
   },
