@@ -22,7 +22,7 @@ export default function Playground() {
       <div className="mx-auto max-w-3xl px-6 py-16">
         <header className="mb-12">
           <h1 className="text-3xl font-semibold tracking-tight">
-            Prototype Playground
+            Feathr Prototype Playground
           </h1>
           <p className="mt-2 text-muted-foreground">
             A directory of prototypes merged into{' '}
