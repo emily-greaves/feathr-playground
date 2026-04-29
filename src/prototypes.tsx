@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { AppLayout } from '@/components/layout'
 import Home from '@/pages/Home'
+import UsabilityConcepts from '@/pages/UsabilityConcepts'
 
 export interface Prototype {
   slug: string
@@ -24,6 +25,15 @@ export const prototypes: Prototype[] = [
         <Home />
       </AppLayout>
     ),
+  },
+  {
+    slug: 'usability-concepts',
+    title: 'Usability Concepts',
+    description:
+      'Four IA variations rendered side-by-side via a runtime concept switcher: current navigation (baseline), task-based flat nav with project as filter, progressive (adapts to new vs mature users), and a simplified hybrid. Use the floating switcher in the bottom-right to toggle between concepts.',
+    branch: 'usability-concept-prototype',
+    mergedAt: '2026-04-28',
+    render: () => <UsabilityConcepts />,
   },
 ]
 
