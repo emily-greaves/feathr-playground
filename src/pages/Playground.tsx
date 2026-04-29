@@ -12,9 +12,11 @@ function formatDate(iso: string) {
 }
 
 export default function Playground() {
+  const sorted = [...prototypes].sort((a, b) => b.mergedAt.localeCompare(a.mergedAt))
+
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-5xl px-6 py-16">
+      <div className="mx-auto max-w-3xl px-6 py-16">
         <header className="mb-12">
           <h1 className="text-3xl font-semibold tracking-tight">
             Prototype Playground
@@ -26,8 +28,8 @@ export default function Playground() {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {prototypes.map((p) => (
+        <div className="flex flex-col gap-4">
+          {sorted.map((p) => (
             <a
               key={p.slug}
               href={`#/${p.slug}`}
