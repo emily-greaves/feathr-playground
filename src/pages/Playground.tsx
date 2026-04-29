@@ -13,7 +13,9 @@ function formatDate(iso: string) {
 }
 
 export default function Playground() {
-  const sorted = [...prototypes].sort((a, b) => b.mergedAt.localeCompare(a.mergedAt))
+  const sorted = [...prototypes]
+    .reverse()
+    .sort((a, b) => (b.mergedAt ?? b.createdAt).localeCompare(a.mergedAt ?? a.createdAt))
 
   return (
     <div className="min-h-screen bg-background">
@@ -76,7 +78,11 @@ export default function Playground() {
                     </>
                   )}
                   <span className="text-border">·</span>
-                  <span>Merged {formatDate(p.mergedAt)}</span>
+                  <span>
+                    {p.mergedAt
+                      ? `Merged ${formatDate(p.mergedAt)}`
+                      : `Created ${formatDate(p.createdAt)}`}
+                  </span>
                   <span className="text-border">·</span>
                   <span>Created by {p.author}</span>
                 </div>
