@@ -89,7 +89,7 @@ const AccordionContent = React.forwardRef<
           ease: [0.32, 0.72, 0, 1],
         }}
         className="overflow-hidden"
-        {...props}
+        {...(props as any)}
       >
         <div className={cn('pb-4 pt-0 text-sm', className)}>{children}</div>
       </motion.div>
