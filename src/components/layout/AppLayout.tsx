@@ -3,6 +3,8 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from './AppSidebar'
 import { SecondarySidebar } from './SecondarySidebar'
 import { NavigationProvider, useNavigation } from './NavigationContext'
+import { ConceptProvider } from './ConceptContext'
+import { ConceptSwitcher } from './ConceptSwitcher'
 
 interface AppLayoutProps {
   children: ReactNode
@@ -18,14 +20,17 @@ function AppLayoutContent({ children }: AppLayoutProps) {
       <SidebarInset>
         <main className="flex-1 overflow-auto p-4">{children}</main>
       </SidebarInset>
+      <ConceptSwitcher />
     </SidebarProvider>
   )
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
   return (
-    <NavigationProvider>
-      <AppLayoutContent>{children}</AppLayoutContent>
-    </NavigationProvider>
+    <ConceptProvider>
+      <NavigationProvider>
+        <AppLayoutContent>{children}</AppLayoutContent>
+      </NavigationProvider>
+    </ConceptProvider>
   )
 }

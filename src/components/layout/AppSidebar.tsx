@@ -31,20 +31,109 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { SidebarNavItem } from './SidebarNavItem'
 import { navigationItems, projectsItem, accountsItem, settingsItem, integrationsItem, notificationsItem, resourcesItem, helpItem } from './navigation'
+import {
+  taskBasedNavItems,
+  taskBasedSettingsItem,
+  progressiveNewUserNavItems,
+  progressiveMatureUserNavItems,
+  progressiveMatureSettingsItem,
+  simplifiedHybridNavItems,
+  simplifiedHybridSettingsItem,
+  conceptNotificationsItem,
+  conceptResourcesItem,
+  conceptHelpItem,
+  conceptIntegrationsItem,
+} from './conceptNavigation'
 import { useNavigation } from './NavigationContext'
+import { useConcept } from './ConceptContext'
 import { WorkspaceSwitcher } from './WorkspaceSwitcher'
 import { CommandPalette } from './CommandPalette'
+import { CreateWizard } from './CreateWizard'
 import { CreateProjectDialog } from './CreateProjectDialog'
 
 export function AppSidebar() {
   const { activeProject, setActiveProject, projects, favoriteProjectIds, toggleFavorite, activeWorkspace, setActiveWorkspace } = useNavigation()
+  const { activeConcept, userMaturity } = useConcept()
   const { toggleSidebar, state } = useSidebar()
   const favoriteProjects = projects.filter((p) => favoriteProjectIds.includes(p.id))
   const [isDark, setIsDark] = useState(
     document.documentElement.classList.contains('dark')
   )
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
+  const [createWizardOpen, setCreateWizardOpen] = useState(false)
   const [createProjectOpen, setCreateProjectOpen] = useState(false)
+
+  // Get navigation items based on active concept
+  const getNavigationConfig = () => {
+    switch (activeConcept) {
+      case 'task-based':
+        return {
+          mainItems: taskBasedNavItems,
+          settingsItem: taskBasedSettingsItem,
+          showProjects: false,
+          showAccounts: false,
+          integrationsItem: conceptIntegrationsItem,
+          notificationsItem: conceptNotificationsItem,
+          resourcesItem: conceptResourcesItem,
+          helpItem: conceptHelpItem,
+        }
+      case 'progressive':
+        if (userMaturity === 'new') {
+          return {
+            mainItems: progressiveNewUserNavItems,
+            settingsItem: null, // Account item handles this for new users
+            showProjects: false,
+            showAccounts: false,
+            integrationsItem: null,
+            notificationsItem: null,
+            resourcesItem: conceptResourcesItem,
+            helpItem: conceptHelpItem,
+          }
+        }
+        return {
+          mainItems: progressiveMatureUserNavItems,
+          settingsItem: progressiveMatureSettingsItem,
+          showProjects: false,
+          showAccounts: false,
+          integrationsItem: conceptIntegrationsItem,
+          notificationsItem: conceptNotificationsItem,
+          resourcesItem: conceptResourcesItem,
+          helpItem: conceptHelpItem,
+        }
+      case 'simplified-hybrid':
+        return {
+          mainItems: simplifiedHybridNavItems,
+          settingsItem: simplifiedHybridSettingsItem,
+          showProjects: false,
+          showAccounts: false,
+          integrationsItem: conceptIntegrationsItem,
+          notificationsItem: conceptNotificationsItem,
+          resourcesItem: conceptResourcesItem,
+          helpItem: conceptHelpItem,
+        }
+      case 'current':
+      default:
+        return {
+          mainItems: navigationItems,
+          settingsItem: settingsItem,
+          showProjects: true,
+          showAccounts: true,
+          integrationsItem: integrationsItem,
+          notificationsItem: notificationsItem,
+          resourcesItem: resourcesItem,
+          helpItem: helpItem,
+        }
+    }
+  }
+
+  const navConfig = getNavigationConfig()
+
+  // Handle Create button click for Progressive concept
+  const handleCreateClick = () => {
+    if (activeConcept === 'progressive') {
+      setCreateWizardOpen(true)
+    }
+  }
 
   // Keyboard shortcut for command palette (⌘K / Ctrl+K)
   useEffect(() => {
@@ -184,69 +273,95 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navigationItems.map((item) => (
-                <SidebarNavItem key={item.id} item={item} />
+              {navConfig.mainItems.map((item) => (
+                item.id === 'create' && activeConcept === 'progressive' ? (
+                  <SidebarMenuItem key={item.id}>
+                    <SidebarMenuButton
+                      tooltip={item.title}
+                      onClick={handleCreateClick}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      <span className="flex-1">{item.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ) : (
+                  <SidebarNavItem key={item.id} item={item} />
+                )
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        {/* Projects Section */}
-        <SidebarGroup className="mt-4 pt-4 border-t border-sidebar-border">
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarNavItem key={projectsItem.id} item={projectsItem} />
-              {/* Favorited Projects List - hidden when collapsed */}
-              {favoriteProjects.map((project) => (
-                <SidebarMenuItem key={project.id} className="group/project group-data-[collapsible=icon]:hidden">
-                  <ContextMenu>
-                    <ContextMenuTrigger asChild>
-                      <SidebarMenuButton
-                        isActive={activeProject?.id === project.id}
-                        className="pl-8"
-                        onClick={() => setActiveProject(project)}
-                      >
-                        <span className="flex-1 truncate">{project.name}</span>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            toggleFavorite(project.id)
-                          }}
-                          className="opacity-0 group-hover/project:opacity-100 p-0.5 rounded hover:bg-sidebar-accent transition-opacity"
-                          aria-label="Remove from favorites"
+        {/* Projects Section - Only for Current concept */}
+        {navConfig.showProjects && (
+          <SidebarGroup className="mt-4 pt-4 border-t border-sidebar-border">
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarNavItem key={projectsItem.id} item={projectsItem} />
+                {/* Favorited Projects List - hidden when collapsed */}
+                {favoriteProjects.map((project) => (
+                  <SidebarMenuItem key={project.id} className="group/project group-data-[collapsible=icon]:hidden">
+                    <ContextMenu>
+                      <ContextMenuTrigger asChild>
+                        <SidebarMenuButton
+                          isActive={activeProject?.id === project.id}
+                          className="pl-8"
+                          onClick={() => setActiveProject(project)}
                         >
-                          <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                        </button>
-                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                      </SidebarMenuButton>
-                    </ContextMenuTrigger>
-                    <ContextMenuContent>
-                      <ContextMenuItem onClick={() => toggleFavorite(project.id)}>
-                        <Star className="h-4 w-4 mr-2" />
-                        Remove from favorites
-                      </ContextMenuItem>
-                    </ContextMenuContent>
-                  </ContextMenu>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        {/* Accounts Section */}
-        <SidebarGroup className="mt-4 pt-4 border-t border-sidebar-border">
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarNavItem key={accountsItem.id} item={accountsItem} />
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+                          <span className="flex-1 truncate">{project.name}</span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              toggleFavorite(project.id)
+                            }}
+                            className="opacity-0 group-hover/project:opacity-100 p-0.5 rounded hover:bg-sidebar-accent transition-opacity"
+                            aria-label="Remove from favorites"
+                          >
+                            <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
+                          </button>
+                          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                        </SidebarMenuButton>
+                      </ContextMenuTrigger>
+                      <ContextMenuContent>
+                        <ContextMenuItem onClick={() => toggleFavorite(project.id)}>
+                          <Star className="h-4 w-4 mr-2" />
+                          Remove from favorites
+                        </ContextMenuItem>
+                      </ContextMenuContent>
+                    </ContextMenu>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+        {/* Accounts Section - Only for Current concept */}
+        {navConfig.showAccounts && (
+          <SidebarGroup className="mt-4 pt-4 border-t border-sidebar-border">
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarNavItem key={accountsItem.id} item={accountsItem} />
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
         <SidebarGroup className="mt-auto pt-4 border-t border-sidebar-border">
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarNavItem key={notificationsItem.id} item={notificationsItem} />
-              <SidebarNavItem key={resourcesItem.id} item={resourcesItem} />
-              <SidebarNavItem key={helpItem.id} item={helpItem} />
-              <SidebarNavItem key={integrationsItem.id} item={integrationsItem} />
-              <SidebarNavItem key={settingsItem.id} item={settingsItem} />
+              {navConfig.notificationsItem && (
+                <SidebarNavItem key={navConfig.notificationsItem.id} item={navConfig.notificationsItem} />
+              )}
+              {navConfig.resourcesItem && (
+                <SidebarNavItem key={navConfig.resourcesItem.id} item={navConfig.resourcesItem} />
+              )}
+              {navConfig.helpItem && (
+                <SidebarNavItem key={navConfig.helpItem.id} item={navConfig.helpItem} />
+              )}
+              {navConfig.integrationsItem && (
+                <SidebarNavItem key={navConfig.integrationsItem.id} item={navConfig.integrationsItem} />
+              )}
+              {navConfig.settingsItem && (
+                <SidebarNavItem key={navConfig.settingsItem.id} item={navConfig.settingsItem} />
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -305,6 +420,10 @@ export function AppSidebar() {
       <CommandPalette
         open={commandPaletteOpen}
         onOpenChange={setCommandPaletteOpen}
+      />
+      <CreateWizard
+        open={createWizardOpen}
+        onClose={() => setCreateWizardOpen(false)}
       />
       <CreateProjectDialog
         open={createProjectOpen}
