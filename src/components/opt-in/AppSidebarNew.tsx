@@ -31,7 +31,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { SidebarFeatureOptIn } from '@/components/opt-in'
+import { SidebarFeatureOptIn } from './SidebarFeatureOptIn'
 
 const marketingItems = [
   {
