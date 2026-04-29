@@ -13,6 +13,7 @@ tsconfig.tsbuildinfo
 # IDE
 .idea/
 .vscode/
+.claude/
 *.swp
 *.swo
 
@@ -28,3 +29,4 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+.superpowers/

@@ -1,14 +1,37 @@
+import { useEffect, useState } from 'react'
 import { Toaster } from '@/components/ui/sonner'
-import { AppLayout } from '@/components/layout'
-import Home from '@/pages/Home'
+import { Agentation } from 'agentation'
+import { PrototypeFrame } from '@/components/layout/PrototypeFrame'
+import Playground from '@/pages/Playground'
+import { getPrototype } from '@/prototypes'
+
+function useHashRoute() {
+  const [hash, setHash] = useState(() => window.location.hash)
+
+  useEffect(() => {
+    const onHashChange = () => setHash(window.location.hash)
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
+
+  return hash.replace(/^#\/?/, '').trim()
+}
 
 function App() {
+  const slug = useHashRoute()
+  const prototype = slug ? getPrototype(slug) : undefined
+
   return (
     <>
-      <AppLayout>
-        <Home />
-      </AppLayout>
+      {prototype ? (
+        <PrototypeFrame prototype={prototype}>
+          {prototype.render()}
+        </PrototypeFrame>
+      ) : (
+        <Playground />
+      )}
       <Toaster position="bottom-right" richColors />
+      {import.meta.env.DEV && <Agentation />}
     </>
   )
 }

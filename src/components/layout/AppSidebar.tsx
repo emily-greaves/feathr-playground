@@ -30,7 +30,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { SidebarNavItem } from './SidebarNavItem'
-import { navigationItems, projectsItem, accountsItem, settingsItem, integrationsItem, notificationsItem, resourcesItem, helpItem, sampleProjects } from './navigation'
+import { navigationItems, projectsItem, accountsItem, settingsItem, integrationsItem, notificationsItem, resourcesItem, helpItem } from './navigation'
 import {
   taskBasedNavItems,
   taskBasedSettingsItem,
@@ -49,17 +49,19 @@ import { useConcept } from './ConceptContext'
 import { WorkspaceSwitcher } from './WorkspaceSwitcher'
 import { CommandPalette } from './CommandPalette'
 import { CreateWizard } from './CreateWizard'
+import { CreateProjectDialog } from './CreateProjectDialog'
 
 export function AppSidebar() {
-  const { activeProject, setActiveProject, favoriteProjectIds, toggleFavorite, activeWorkspace, setActiveWorkspace } = useNavigation()
+  const { activeProject, setActiveProject, projects, favoriteProjectIds, toggleFavorite, activeWorkspace, setActiveWorkspace } = useNavigation()
   const { activeConcept, userMaturity } = useConcept()
   const { toggleSidebar, state } = useSidebar()
-  const favoriteProjects = sampleProjects.filter((p) => favoriteProjectIds.includes(p.id))
+  const favoriteProjects = projects.filter((p) => favoriteProjectIds.includes(p.id))
   const [isDark, setIsDark] = useState(
     document.documentElement.classList.contains('dark')
   )
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
   const [createWizardOpen, setCreateWizardOpen] = useState(false)
+  const [createProjectOpen, setCreateProjectOpen] = useState(false)
 
   // Get navigation items based on active concept
   const getNavigationConfig = () => {
@@ -189,10 +191,9 @@ export function AppSidebar() {
 
               {/* Collapse/expand button - always visible */}
               <SidebarMenuButton
-                size="icon"
                 onClick={toggleSidebar}
                 tooltip={state === 'collapsed' ? 'Expand sidebar' : 'Collapse sidebar'}
-                className="shrink-0 group/collapse group-data-[collapsible=icon]:!p-0"
+                className="shrink-0 size-8 !p-0 group/collapse group-data-[collapsible=icon]:!p-0"
               >
                 {state === 'collapsed' ? (
                   <>
@@ -253,7 +254,7 @@ export function AppSidebar() {
                   <Megaphone className="h-4 w-4" />
                   Create a campaign
                 </DropdownMenuItem>
-                <DropdownMenuItem className="gap-2">
+                <DropdownMenuItem className="gap-2" onSelect={() => setCreateProjectOpen(true)}>
                   <FolderKanban className="h-4 w-4" />
                   Create a project
                 </DropdownMenuItem>
@@ -423,6 +424,10 @@ export function AppSidebar() {
       <CreateWizard
         open={createWizardOpen}
         onClose={() => setCreateWizardOpen(false)}
+      />
+      <CreateProjectDialog
+        open={createProjectOpen}
+        onOpenChange={setCreateProjectOpen}
       />
     </Sidebar>
   )

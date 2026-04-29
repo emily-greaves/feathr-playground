@@ -1,9 +1,13 @@
-import { FileText, FolderKanban, Star, Check } from 'lucide-react'
+import { useState } from 'react'
+import { FileText, FolderKanban, Star, Check, Plus } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
-import { PageHeader } from '@/components/layout'
+import { Button } from '@/components/ui/button'
+import { PageHeader, CreateProjectDialog, CreateCampaignWizard } from '@/components/layout'
 import { useNavigation } from '@/components/layout/NavigationContext'
-import { allNavigationItems, projectNavigationItems, projectSettingsItem, sampleProjects, sampleWorkspaces } from '@/components/layout/navigation'
+import { allNavigationItems, projectNavigationItems, projectSettingsItem, sampleWorkspaces } from '@/components/layout/navigation'
 import { cn } from '@/lib/utils'
+import CampaignsPage from './CampaignsPage'
+import type { CampaignType } from '@/lib/campaignTypes'
 
 function EmptyState() {
   return (
@@ -22,11 +26,11 @@ function EmptyState() {
 }
 
 function ProjectsGrid() {
-  const { setActiveProject, toggleFavorite, isFavorite } = useNavigation()
+  const { projects, setActiveProject, toggleFavorite, isFavorite } = useNavigation()
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {sampleProjects.map((project) => {
+      {projects.map((project) => {
         const favorited = isFavorite(project.id)
         return (
           <Card
@@ -56,9 +60,19 @@ function ProjectsGrid() {
               />
             </button>
             <CardContent className="flex items-center gap-4 p-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
-                <FolderKanban className="h-6 w-6 text-muted-foreground" />
-              </div>
+              {project.image ? (
+                <div className="h-12 w-12 rounded-lg overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
+                  <FolderKanban className="h-6 w-6 text-muted-foreground" />
+                </div>
+              )}
               <div>
                 <h3 className="font-semibold">{project.name}</h3>
                 <p className="text-sm text-muted-foreground">Click to open project</p>
@@ -137,11 +151,23 @@ function AccountsGrid() {
 
 export default function Home() {
   const { activeSection, activeSubItem, activeProject } = useNavigation()
+  const [createProjectOpen, setCreateProjectOpen] = useState(false)
+  const [createCampaignOpen, setCreateCampaignOpen] = useState(false)
 
   // Projects page (no active project) - show projects grid
   const isProjectsPage = activeSection === 'projects' && !activeProject
   // Accounts page - show accounts grid
   const isAccountsPage = activeSection === 'accounts' && !activeProject
+  // Campaigns page
+  const isCampaignsPage = activeSection === 'campaigns'
+  // All Campaigns page within a project
+  const isProjectCampaignsPage = activeProject && activeSection === 'campaigns' && activeSubItem === 'all'
+
+  // Map sub-item to campaign type filter
+  const campaignTypeFilter: CampaignType | undefined =
+    activeSubItem && activeSubItem !== 'all' && activeSubItem !== 'overview'
+      ? (activeSubItem as CampaignType)
+      : undefined
 
   // Get navigation items based on context
   const navigationItems = activeProject
@@ -201,6 +227,7 @@ export default function Home() {
   const renderContent = () => {
     if (isProjectsPage) return <ProjectsGrid />
     if (isAccountsPage) return <AccountsGrid />
+    if (isCampaignsPage) return <CampaignsPage typeFilter={campaignTypeFilter} />
     return <EmptyState />
   }
 
@@ -209,8 +236,32 @@ export default function Home() {
       <PageHeader
         title={pageTitle}
         breadcrumbs={breadcrumbs}
+        actions={
+          <>
+            {isProjectsPage && (
+              <Button onClick={() => setCreateProjectOpen(true)}>
+                <Plus className="h-4 w-4" />
+                Create project
+              </Button>
+            )}
+            {isProjectCampaignsPage && (
+              <Button onClick={() => setCreateCampaignOpen(true)}>
+                <Plus className="h-4 w-4" />
+                Create campaign
+              </Button>
+            )}
+          </>
+        }
       />
       {renderContent()}
+      <CreateProjectDialog
+        open={createProjectOpen}
+        onOpenChange={setCreateProjectOpen}
+      />
+      <CreateCampaignWizard
+        open={createCampaignOpen}
+        onOpenChange={setCreateCampaignOpen}
+      />
     </div>
   )
 }

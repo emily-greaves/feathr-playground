@@ -127,7 +127,7 @@ function SidebarProvider({
             } as React.CSSProperties
           }
           className={cn(
-            "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
+            "group/sidebar-wrapper flex min-h-[var(--app-height,100svh)] w-full has-[[data-variant=inset]]:bg-sidebar",
             className
           )}
           {...props}
@@ -214,7 +214,7 @@ function Sidebar({
       <div
         data-slot="sidebar"
         className={cn(
-          "fixed inset-y-0 z-10 hidden h-svh transition-[left,right,width] duration-200 ease-linear md:flex",
+          "fixed inset-y-0 z-10 hidden h-[var(--app-height,100svh)] transition-[left,right,width] duration-200 ease-linear md:flex",
           side === "left" ? "left-0" : "right-0",
           variant === "floating" || variant === "inset"
             ? "p-2"
@@ -307,7 +307,7 @@ function SidebarInset({
     <main
       data-slot="sidebar-inset"
       className={cn(
-        "relative flex min-h-svh min-w-0 flex-1 flex-col bg-background",
+        "relative flex min-h-[var(--app-height,100svh)] min-w-0 flex-1 flex-col bg-background",
         "peer-data-[variant=inset]:min-h-[calc(100svh-1rem)] md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2",
         className
       )}
