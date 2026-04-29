@@ -1,31 +1,36 @@
 import { ReactNode } from 'react'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
-import { AppSidebar } from './AppSidebar'
+import { ConceptSidebar } from './ConceptSidebar'
 import { SecondarySidebar } from './SecondarySidebar'
 import { NavigationProvider, useNavigation } from './NavigationContext'
+import { ConceptProvider } from './ConceptContext'
+import { ConceptSwitcher } from './ConceptSwitcher'
 
-interface AppLayoutProps {
+interface ConceptLayoutProps {
   children: ReactNode
 }
 
-function AppLayoutContent({ children }: AppLayoutProps) {
+function ConceptLayoutContent({ children }: ConceptLayoutProps) {
   const { sidebarOpen, setSidebarOpen } = useNavigation()
 
   return (
     <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
-      <AppSidebar />
+      <ConceptSidebar />
       <SecondarySidebar />
       <SidebarInset>
         <main className="flex-1 overflow-auto p-4">{children}</main>
       </SidebarInset>
+      <ConceptSwitcher />
     </SidebarProvider>
   )
 }
 
-export function AppLayout({ children }: AppLayoutProps) {
+export function ConceptLayout({ children }: ConceptLayoutProps) {
   return (
-    <NavigationProvider>
-      <AppLayoutContent>{children}</AppLayoutContent>
-    </NavigationProvider>
+    <ConceptProvider>
+      <NavigationProvider>
+        <ConceptLayoutContent>{children}</ConceptLayoutContent>
+      </NavigationProvider>
+    </ConceptProvider>
   )
 }
