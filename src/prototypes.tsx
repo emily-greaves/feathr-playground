@@ -82,7 +82,9 @@ export const prototypes: Prototype[] = [
       'Iteration on the GDPR email consent prototype. Duplicated from v1 as a starting point — ready to evolve with new ideas.',
     branch: 'aw/gdpr-email-consent-v2',
     createdAt: '2026-04-28',
+    mergedAt: '2026-04-28',
     author: 'Andy',
+    prNumber: 15,
     render: () => (
       <AppLayout>
         <GdprConsentDemoV2 />
