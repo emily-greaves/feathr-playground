@@ -1,6 +1,8 @@
-import { ArrowRight, GitBranch } from 'lucide-react'
+import { ArrowRight, GitBranch, Moon, Sun } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { prototypes } from '@/prototypes'
 
 function formatDate(iso: string) {
@@ -14,19 +16,55 @@ function formatDate(iso: string) {
 }
 
 export default function Playground() {
+  const [isDark, setIsDark] = useState(() => {
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme) return savedTheme === 'dark'
+    return document.documentElement.classList.contains('dark')
+  })
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDark)
+    localStorage.setItem('theme', isDark ? 'dark' : 'light')
+  }, [isDark])
+
   const sorted = [...prototypes]
     .reverse()
     .sort((a, b) => (b.mergedAt ?? b.createdAt).localeCompare(a.mergedAt ?? a.createdAt))
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-3xl px-6 py-16">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+      <div className="sticky top-0 z-50 w-full border-b border-border bg-white dark:bg-neutral-950">
+        <div className="relative mx-auto flex max-w-3xl items-center justify-start px-6 py-3">
+          <img
+            src="https://www.feathr.co/hubfs/Feathr-Lockup-Horizontal-Midnight.svg"
+            alt="Feathr logo"
+            title="Feathr logo"
+            width={120}
+            height={35}
+            className="block h-auto w-[120px] [filter:var(--logo-filter)]"
+            loading="eager"
+          />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="absolute right-6"
+            onClick={() => setIsDark((prev) => !prev)}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </Button>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-3xl px-6 pb-16 pt-24">
         <header className="mb-12">
-          <h1 className="text-3xl font-semibold tracking-tight">
-            Feathr Prototype Playground
+          <h1 className="[font-family:'FK_Screamer','FK_Grotesk',ui-sans-serif,system-ui,sans-serif] text-[72px] leading-none font-semibold uppercase">
+            Prototype Playground
           </h1>
           <p className="mt-2 text-muted-foreground">
-            A directory of interactive prototypes. Click any card to open.
+            A directory of interactive prototypes.
           </p>
         </header>
 
@@ -34,7 +72,7 @@ export default function Playground() {
           {sorted.map((p) => (
             <Card
               key={p.slug}
-              className="group h-full cursor-pointer p-6 transition-colors hover:border-foreground/20 hover:bg-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="group h-full cursor-pointer border-transparent p-6 shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_2px_-1px_rgba(0,0,0,0.06),0px_2px_4px_0px_rgba(0,0,0,0.04)] transition-shadow duration-200 hover:shadow-[0px_0px_0px_1px_rgba(0,0,0,0.08),0px_1px_2px_-1px_rgba(0,0,0,0.08),0px_2px_4px_0px_rgba(0,0,0,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               role="link"
               tabIndex={0}
               onClick={() => {

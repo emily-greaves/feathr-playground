@@ -94,10 +94,10 @@ export const campaignTypeConfigs: Record<CampaignType, CampaignTypeConfig> = {
     id: 'landing-pages',
     label: 'Landing Pages',
     icon: FileText,
-    color: 'slate',
-    bgClass: 'bg-slate-100 dark:bg-slate-800',
-    textClass: 'text-slate-700 dark:text-slate-300',
-    borderClass: 'border-slate-200 dark:border-slate-700',
+    color: 'neutral',
+    bgClass: 'bg-neutral-100 dark:bg-neutral-800',
+    textClass: 'text-neutral-700 dark:text-neutral-300',
+    borderClass: 'border-neutral-200 dark:border-neutral-700',
   },
   'track-links': {
     id: 'track-links',
@@ -122,16 +122,16 @@ export const campaignTypeConfigs: Record<CampaignType, CampaignTypeConfig> = {
 export const flightConfig = {
   label: 'Flight',
   icon: Plane,
-  bgClass: 'bg-gray-100 dark:bg-gray-800',
-  textClass: 'text-gray-700 dark:text-gray-300',
-  borderClass: 'border-gray-300 dark:border-gray-600 border-dashed',
+  bgClass: 'bg-neutral-100 dark:bg-neutral-800',
+  textClass: 'text-neutral-700 dark:text-neutral-300',
+  borderClass: 'border-neutral-300 dark:border-neutral-600 border-dashed',
 }
 
 export const statusConfig: Record<CampaignStatus, { label: string; bgClass: string; textClass: string }> = {
   draft: {
     label: 'Draft',
-    bgClass: 'bg-gray-100 dark:bg-gray-800',
-    textClass: 'text-gray-600 dark:text-gray-400',
+    bgClass: 'bg-neutral-100 dark:bg-neutral-800',
+    textClass: 'text-neutral-600 dark:text-neutral-400',
   },
   active: {
     label: 'Active',
