@@ -4,8 +4,6 @@ import Home from '@/pages/Home'
 import UsabilityConcepts from '@/pages/UsabilityConcepts'
 import FeatureOptIn from '@/pages/FeatureOptIn'
 import GdprConsentDemo from '@/pages/GdprConsentDemo'
-import GdprConsentDemoV2 from '@/pages/GdprConsentDemoV2'
-import TestShell from '@/pages/TestShell'
 
 export interface Prototype {
   slug: string
@@ -75,31 +73,6 @@ export const prototypes: Prototype[] = [
         <GdprConsentDemo />
       </AppLayout>
     ),
-  },
-  {
-    slug: 'gdpr-email-consent-v2',
-    title: 'GDPR Email Consent v2',
-    description:
-      'Iteration on the GDPR email consent prototype. Duplicated from v1 as a starting point — ready to evolve with new ideas.',
-    branch: 'aw/gdpr-email-consent-v2',
-    createdAt: '2026-04-28',
-    mergedAt: '2026-04-28',
-    author: 'Andy',
-    prNumber: 15,
-    render: () => (
-      <AppLayout>
-        <GdprConsentDemoV2 />
-      </AppLayout>
-    ),
-  },
-  {
-    slug: 'test-shell',
-    title: 'Test Shell',
-    description: 'Empty prototype scaffold — placeholder for future work.',
-    branch: 'aw/test-shell',
-    createdAt: '2026-04-29',
-    author: 'Andy',
-    render: () => <TestShell />,
   },
 ]
 
