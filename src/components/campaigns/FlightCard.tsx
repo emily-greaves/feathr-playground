@@ -19,13 +19,13 @@ export function FlightCard({ flight }: FlightCardProps) {
   return (
     <div className="relative">
       {/* Stacked card effect */}
-      <div className="absolute inset-0 top-1 left-1 rounded-lg border border-dashed border-gray-300 dark:border-gray-600 bg-muted/20" />
-      <div className="absolute inset-0 top-0.5 left-0.5 rounded-lg border border-dashed border-gray-300 dark:border-gray-600 bg-muted/30" />
+      <div className="absolute inset-0 top-1 left-1 rounded-lg border border-dashed border-neutral-300 dark:border-neutral-600 bg-muted/20" />
+      <div className="absolute inset-0 top-0.5 left-0.5 rounded-lg border border-dashed border-neutral-300 dark:border-neutral-600 bg-muted/30" />
 
       <Card
         className={cn(
           'relative group cursor-pointer hover:border-primary/50 hover:shadow-md transition-all',
-          'border-dashed border-gray-300 dark:border-gray-600'
+          'border-dashed border-neutral-300 dark:border-neutral-600'
         )}
         onClick={() => setExpanded(!expanded)}
       >

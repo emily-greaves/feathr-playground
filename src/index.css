@@ -47,26 +47,45 @@
 @theme {
   --font-sans: "FK Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "FK Grotesk SemiMono", ui-monospace, monospace;
+
+  /* Custom neutral palette override */
+  --color-neutral-50: #faf7f3;
+  --color-neutral-100: #f5f2ee;
+  --color-neutral-200: #e5e0d9;
+  --color-neutral-300: #d5cfc5;
+  --color-neutral-400: #c5bfb1;
+  --color-neutral-500: #b5afa1;
+  --color-neutral-600: #a59f91;
+  --color-neutral-700: #958f81;
+  --color-neutral-800: #857f71;
+  --color-neutral-900: #19263c;
+  --color-neutral-950: #0d1522;
+
+  /* Brand accent (derived from #21ebff, tuned for light-mode contrast) */
+  --color-brand-accent: #007a8a;
+  --color-brand-accent-soft: #dff5f8;
+  --color-brand-accent-foreground: #063842;
+
   /* Colors - Neutral base (shadcn new-york style) */
-  --color-background: hsl(0 0% 100%);
-  --color-foreground: hsl(0 0% 3.9%);
-  --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(0 0% 3.9%);
-  --color-popover: hsl(0 0% 100%);
-  --color-popover-foreground: hsl(0 0% 3.9%);
-  --color-primary: hsl(0 0% 9%);
-  --color-primary-foreground: hsl(0 0% 98%);
-  --color-secondary: hsl(0 0% 96.1%);
-  --color-secondary-foreground: hsl(0 0% 9%);
-  --color-muted: hsl(0 0% 96.1%);
-  --color-muted-foreground: hsl(0 0% 45.1%);
-  --color-accent: hsl(0 0% 96.1%);
-  --color-accent-foreground: hsl(0 0% 9%);
-  --color-destructive: hsl(0 84.2% 60.2%);
-  --color-destructive-foreground: hsl(0 0% 98%);
-  --color-border: hsl(0 0% 89.8%);
-  --color-input: hsl(0 0% 89.8%);
-  --color-ring: hsl(0 0% 3.9%);
+  --color-background: var(--color-neutral-50);
+  --color-foreground: var(--color-neutral-900);
+  --color-card: white;
+  --color-card-foreground: var(--color-neutral-900);
+  --color-popover: var(--color-neutral-100);
+  --color-popover-foreground: var(--color-neutral-900);
+  --color-primary: var(--color-neutral-900);
+  --color-primary-foreground: var(--color-neutral-100);
+  --color-secondary: var(--color-neutral-100);
+  --color-secondary-foreground: var(--color-neutral-900);
+  --color-muted: var(--color-neutral-100);
+  --color-muted-foreground: var(--color-neutral-600);
+  --color-accent: var(--color-neutral-100);
+  --color-accent-foreground: var(--color-neutral-900);
+  --color-destructive: var(--color-neutral-900);
+  --color-destructive-foreground: var(--color-neutral-100);
+  --color-border: hsl(0 0% 92%);
+  --color-input: var(--color-neutral-900);
+  --color-ring: var(--color-neutral-900);
 
   /* Radius */
   --radius-sm: 0.25rem;
@@ -94,38 +113,43 @@
 
 /* Dark mode */
 .dark {
-  --color-background: hsl(0 0% 3.9%);
-  --color-foreground: hsl(0 0% 98%);
-  --color-card: hsl(0 0% 3.9%);
-  --color-card-foreground: hsl(0 0% 98%);
-  --color-popover: hsl(0 0% 3.9%);
-  --color-popover-foreground: hsl(0 0% 98%);
-  --color-primary: hsl(0 0% 98%);
-  --color-primary-foreground: hsl(0 0% 9%);
-  --color-secondary: hsl(0 0% 14.9%);
-  --color-secondary-foreground: hsl(0 0% 98%);
-  --color-muted: hsl(0 0% 14.9%);
-  --color-muted-foreground: hsl(0 0% 63.9%);
-  --color-accent: hsl(0 0% 14.9%);
-  --color-accent-foreground: hsl(0 0% 98%);
-  --color-destructive: hsl(0 62.8% 30.6%);
-  --color-destructive-foreground: hsl(0 0% 98%);
-  --color-border: hsl(0 0% 14.9%);
-  --color-input: hsl(0 0% 14.9%);
-  --color-ring: hsl(0 0% 83.1%);
+  --color-background: var(--color-neutral-950);
+  --color-foreground: var(--color-neutral-50);
+  --color-card: var(--color-neutral-900);
+  --color-card-foreground: var(--color-neutral-50);
+  --color-popover: var(--color-neutral-900);
+  --color-popover-foreground: var(--color-neutral-50);
+  --color-primary: var(--color-neutral-50);
+  --color-primary-foreground: var(--color-neutral-900);
+  --color-secondary: var(--color-neutral-600);
+  --color-secondary-foreground: var(--color-neutral-50);
+  --color-muted: var(--color-neutral-900);
+  --color-muted-foreground: var(--color-neutral-50);
+  --color-accent: var(--color-neutral-900);
+  --color-accent-foreground: var(--color-neutral-50);
+  --color-destructive: var(--color-neutral-900);
+  --color-destructive-foreground: var(--color-neutral-50);
+  --color-border: var(--color-neutral-900);
+  --color-input: var(--color-neutral-900);
+  --color-ring: var(--color-neutral-900);
   --color-chart-1: hsl(220 70% 50%);
   --color-chart-2: hsl(160 60% 45%);
   --color-chart-3: hsl(30 80% 55%);
   --color-chart-4: hsl(280 65% 60%);
   --color-chart-5: hsl(340 75% 55%);
-  --color-sidebar-background: hsl(0 0% 5.9%);
-  --color-sidebar-foreground: hsl(0 0% 63.9%);
-  --color-sidebar-primary: hsl(0 0% 98%);
-  --color-sidebar-primary-foreground: hsl(0 0% 9%);
-  --color-sidebar-accent: hsl(0 0% 14.9%);
-  --color-sidebar-accent-foreground: hsl(0 0% 98%);
-  --color-sidebar-border: hsl(0 0% 14.9%);
-  --color-sidebar-ring: hsl(0 0% 83.1%);
+  --color-sidebar-background: var(--color-neutral-900);
+  --color-sidebar-foreground: var(--color-neutral-50);
+  --color-sidebar-primary: var(--color-neutral-50);
+  --color-sidebar-primary-foreground: var(--color-neutral-900);
+  --color-sidebar-accent: var(--color-neutral-600);
+  --color-sidebar-accent-foreground: var(--color-neutral-50);
+  --color-sidebar-border: var(--color-neutral-900);
+  --color-sidebar-ring: var(--color-neutral-900);
+
+  /* Slightly brighter brand accent in dark mode */
+  --color-brand-accent: #2ad9ee;
+  --color-brand-accent-soft: #0b3940;
+  --color-brand-accent-foreground: #e8fbff;
 }
 
 @layer base {
@@ -140,25 +164,28 @@
 }
 
 :root {
-  --sidebar: hsl(0 0% 98%);
-  --sidebar-foreground: hsl(240 5.3% 26.1%);
-  --sidebar-primary: hsl(240 5.9% 10%);
+  --logo-filter: none;
+  --sidebar: white;
+  --sidebar-foreground: hsl(0 0% 25%);
+  --sidebar-primary: hsl(0 0% 9%);
   --sidebar-primary-foreground: hsl(0 0% 98%);
-  --sidebar-accent: hsl(240 4.8% 95.9%);
-  --sidebar-accent-foreground: hsl(240 5.9% 10%);
-  --sidebar-border: hsl(220 13% 91%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+  --sidebar-accent: hsl(0 0% 96.1%);
+  --sidebar-accent-foreground: hsl(0 0% 9%);
+  --sidebar-border: hsl(0 0% 89.8%);
+  --sidebar-ring: hsl(0 0% 3.9%);
 }
 
 .dark {
-  --sidebar: hsl(240 5.9% 10%);
-  --sidebar-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-primary: hsl(224.3 76.3% 48%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(240 3.7% 15.9%);
-  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-border: hsl(240 3.7% 15.9%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+  --logo-filter: brightness(0) saturate(100%) invert(95%) sepia(14%) saturate(371%)
+    hue-rotate(168deg) brightness(106%) contrast(96%);
+  --sidebar: var(--color-neutral-900);
+  --sidebar-foreground: var(--color-neutral-50);
+  --sidebar-primary: var(--color-neutral-50);
+  --sidebar-primary-foreground: var(--color-neutral-900);
+  --sidebar-accent: var(--color-neutral-600);
+  --sidebar-accent-foreground: var(--color-neutral-50);
+  --sidebar-border: var(--color-neutral-900);
+  --sidebar-ring: var(--color-neutral-900);
 }
 
 @theme inline {

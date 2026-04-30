@@ -18,7 +18,7 @@ export function CampaignTypePill({ type, size = 'md', className }: CampaignTypeP
         'inline-flex items-center gap-1.5 rounded-full font-medium whitespace-nowrap',
         config.bgClass,
         config.textClass,
-        type === 'flight' && 'border border-dashed border-gray-300 dark:border-gray-600',
+        type === 'flight' && 'border border-dashed border-neutral-300 dark:border-neutral-600',
         size === 'sm' && 'px-2 py-0.5 text-xs',
         size === 'md' && 'px-2.5 py-1 text-xs',
         className
