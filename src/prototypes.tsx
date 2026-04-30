@@ -5,8 +5,7 @@ import UsabilityConcepts from '@/pages/UsabilityConcepts'
 import FeatureOptIn from '@/pages/FeatureOptIn'
 import GdprConsentDemo from '@/pages/GdprConsentDemo'
 import GdprConsentDemoV2 from '@/pages/GdprConsentDemoV2'
-import TestPrototype from '@/pages/TestPrototype'
-import WorkflowTest from '@/pages/WorkflowTest'
+import TestShell from '@/pages/TestShell'
 
 export interface Prototype {
   slug: string
@@ -94,24 +93,13 @@ export const prototypes: Prototype[] = [
     ),
   },
   {
-    slug: 'test-prototype',
-    title: 'Test Prototype',
-    description:
-      'Placeholder prototype — infrastructure only, feature not yet built.',
-    branch: 'aw/test-prototype',
+    slug: 'test-shell',
+    title: 'Test Shell',
+    description: 'Empty prototype scaffold — placeholder for future work.',
+    branch: 'aw/test-shell',
     createdAt: '2026-04-29',
     author: 'Andy',
-    render: () => <TestPrototype />,
-  },
-  {
-    slug: 'workflow-test',
-    title: 'Workflow Test',
-    description:
-      'Shell only — used to verify the auto-merge-status workflow.',
-    branch: 'aw/workflow-test',
-    createdAt: '2026-04-29',
-    author: 'Andy',
-    render: () => <WorkflowTest />,
+    render: () => <TestShell />,
   },
 ]
 
