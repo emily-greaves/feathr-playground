@@ -19,6 +19,7 @@ jobs:
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           MERGE_DATE: ${{ github.event.pull_request.merged_at }}
+          BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
         run: node .github/scripts/set-merged-at.cjs
 
       - name: Check for changes

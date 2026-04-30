@@ -6,6 +6,7 @@ import FeatureOptIn from '@/pages/FeatureOptIn'
 import GdprConsentDemo from '@/pages/GdprConsentDemo'
 import GdprConsentDemoV2 from '@/pages/GdprConsentDemoV2'
 import TestPrototype from '@/pages/TestPrototype'
+import WorkflowTest from '@/pages/WorkflowTest'
 
 export interface Prototype {
   slug: string
@@ -101,6 +102,16 @@ export const prototypes: Prototype[] = [
     createdAt: '2026-04-29',
     author: 'Andy',
     render: () => <TestPrototype />,
+  },
+  {
+    slug: 'workflow-test',
+    title: 'Workflow Test',
+    description:
+      'Shell only — used to verify the auto-merge-status workflow.',
+    branch: 'aw/workflow-test',
+    createdAt: '2026-04-29',
+    author: 'Andy',
+    render: () => <WorkflowTest />,
   },
 ]
 
