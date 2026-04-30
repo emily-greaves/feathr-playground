@@ -5,6 +5,7 @@ import UsabilityConcepts from '@/pages/UsabilityConcepts'
 import FeatureOptIn from '@/pages/FeatureOptIn'
 import GdprConsentDemo from '@/pages/GdprConsentDemo'
 import GdprConsentDemoV2 from '@/pages/GdprConsentDemoV2'
+import TestPrototype from '@/pages/TestPrototype'
 
 export interface Prototype {
   slug: string
@@ -90,6 +91,16 @@ export const prototypes: Prototype[] = [
         <GdprConsentDemoV2 />
       </AppLayout>
     ),
+  },
+  {
+    slug: 'test-prototype',
+    title: 'Test Prototype',
+    description:
+      'Placeholder prototype — infrastructure only, feature not yet built.',
+    branch: 'aw/test-prototype',
+    createdAt: '2026-04-29',
+    author: 'Andy',
+    render: () => <TestPrototype />,
   },
 ]
 
